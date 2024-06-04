@@ -1,4 +1,38 @@
-import { Container, VStack, Heading, Text, Box, Image, SimpleGrid } from "@chakra-ui/react";
+import { Container, VStack, Heading, Text, Box, Image, SimpleGrid, HStack, IconButton } from "@chakra-ui/react";
+import { useState } from "react";
+import { StarIcon } from "@chakra-ui/icons";
+
+const MovieCard = ({ title, description, imageSrc }) => {
+  const [rating, setRating] = useState(0);
+
+  const handleRating = (rate) => {
+    setRating(rate);
+  };
+
+  return (
+    <Box borderWidth="1px" borderRadius="lg" overflow="hidden">
+      <Image src={imageSrc} alt={title} />
+      <Box p={6}>
+        <Heading as="h3" size="md" mb={2}>
+          {title}
+        </Heading>
+        <Text mb={4}>{description}</Text>
+        <HStack spacing={1}>
+          {[1, 2, 3, 4, 5].map((star) => (
+            <IconButton
+              key={star}
+              icon={<StarIcon />}
+              colorScheme={star <= rating ? "yellow" : "gray"}
+              variant="ghost"
+              onClick={() => handleRating(star)}
+              aria-label={`${star} stars`}
+            />
+          ))}
+        </HStack>
+      </Box>
+    </Box>
+  );
+};
 
 const Index = () => {
   return (
@@ -15,39 +49,21 @@ const Index = () => {
             Latest Reviews
           </Heading>
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-            <Box borderWidth="1px" borderRadius="lg" overflow="hidden">
-              <Image src="/path/to/movie-poster1.jpg" alt="Movie 1" />
-              <Box p={6}>
-                <Heading as="h3" size="md" mb={2}>
-                  Movie Title 1
-                </Heading>
-                <Text>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.
-                </Text>
-              </Box>
-            </Box>
-            <Box borderWidth="1px" borderRadius="lg" overflow="hidden">
-              <Image src="/path/to/movie-poster2.jpg" alt="Movie 2" />
-              <Box p={6}>
-                <Heading as="h3" size="md" mb={2}>
-                  Movie Title 2
-                </Heading>
-                <Text>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.
-                </Text>
-              </Box>
-            </Box>
-            <Box borderWidth="1px" borderRadius="lg" overflow="hidden">
-              <Image src="/path/to/movie-poster3.jpg" alt="Movie 3" />
-              <Box p={6}>
-                <Heading as="h3" size="md" mb={2}>
-                  Movie Title 3
-                </Heading>
-                <Text>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.
-                </Text>
-              </Box>
-            </Box>
+            <MovieCard
+              title="Movie Title 1"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam."
+              imageSrc="/path/to/movie-poster1.jpg"
+            />
+            <MovieCard
+              title="Movie Title 2"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam."
+              imageSrc="/path/to/movie-poster2.jpg"
+            />
+            <MovieCard
+              title="Movie Title 3"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam."
+              imageSrc="/path/to/movie-poster3.jpg"
+            />
           </SimpleGrid>
         </Box>
       </VStack>
